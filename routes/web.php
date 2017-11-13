@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+});
+Route::get('/dog', function () {
+    return view('dog');
+});
+Route::post('/dog', function () {
+    return redirect('/dog');
 });
