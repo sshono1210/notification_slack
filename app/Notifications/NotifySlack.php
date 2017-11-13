@@ -5,9 +5,9 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 
-class TodaysLunch extends Notification
+class NotifySlack extends Notification
 {
     use Queueable;
 
@@ -33,17 +33,17 @@ class TodaysLunch extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
-    public function toMail($notifiable)
+    public function toSlack($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new SlackMessage)
+            ->from('いぬ', ':dog:')
+            ->to('#notify')
+            ->content('ワンワン！');
     }
 
     /**
