@@ -10,13 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\User;
+use App\Notifications\NotifySlack;
 
 Route::get('/', function () {
-    return view('home');
+    $animal = ["dog", "cat", "mouse", "monkey"];
+
+    return view('home', [
+        "animals" => $animal
+    ]);
 });
-Route::get('/dog', function () {
-    return view('dog');
-});
-Route::post('/dog', function () {
-    return redirect('/dog');
+Route::get('/{animal}', function ($animal) {
+    $user = new User();
+    $user->notify(new NotifySlack($animal));
+
+    return redirect('/');
 });

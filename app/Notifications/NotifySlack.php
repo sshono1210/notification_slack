@@ -11,14 +11,16 @@ class NotifySlack extends Notification
 {
     use Queueable;
 
+    public $animal;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($animal)
     {
-        //
+        $this->animal = $animal;
     }
 
     /**
@@ -29,33 +31,47 @@ class NotifySlack extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['slack'];
     }
 
-    /**
-     * Get the slack representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\SlackMessage
-     */
     public function toSlack($notifiable)
     {
+        $animal = $this->getAnimal($this->animal);
         return (new SlackMessage)
-            ->from('いぬ', ':dog:')
+            ->from($animal["name"], ":{$animal["en_name"]}:")
             ->to('#notify')
-            ->content('ワンワン！');
+            ->content($animal["cry"]);
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+    protected function getAnimal($animal)
     {
-        return [
-            //
+        $mammals = [];
+        $mammals[] = [
+            "name" => "いぬ",
+            "en_name" => "dog",
+            "cry" => "ワンワン！",
         ];
+        $mammals[] = [
+            "name" => "ねこ",
+            "en_name" => "cat",
+            "cry" => "ニャ〜ニャ〜",
+        ];
+        $mammals[] = [
+            "name" => "ねずみ",
+            "en_name" => "mouse",
+            "cry" => "チュウチュウ♪",
+        ];
+        $mammals[] = [
+            "name" => "さる",
+            "en_name" => "monkey",
+            "cry" => "キキー！",
+        ];
+        foreach ($mammals as $mammal){
+            if($animal == $mammal["en_name"]) {
+                $animal = $mammal;
+            }
+        }
+
+        return $animal;
     }
 }

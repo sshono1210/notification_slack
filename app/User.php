@@ -28,6 +28,6 @@ class User extends Authenticatable
     ];
 
     public function routeNotificationForSlack(){
-        return $this->slack_webhook_url;
+        return env('WEBHOOK_URL');
     }
 }

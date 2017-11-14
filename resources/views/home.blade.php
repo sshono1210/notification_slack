@@ -19,12 +19,12 @@
 
     <div class="content">
         <div class="title m-b-md">
-            どの動物になってみる？
+            Animals
         </div>
-        <form action="/dog" method="post">
-            {{csrf_field()}}
-            <button class="btn btn-info" type="submit">いぬ</button>
-        </form>
+        @foreach($animals as $index => $value)
+            <a href="/{{$value}}" class="btn btn-info" role="button">{{$value}}</a>
+        @endforeach
+
     </div>
 </div>
 </body>
